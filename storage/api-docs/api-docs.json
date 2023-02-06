@@ -13,6 +13,91 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/cart/addItem": {
+            "post": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Add a new item to the cart.",
+                "operationId": "addItem",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "description": "The name of the item",
+                                        "type": "integer"
+                                    },
+                                    "item_id": {
+                                        "description": "The price of the item",
+                                        "type": "integer"
+                                    },
+                                    "item_amount": {
+                                        "description": "The price of the item",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Item added to the user cart"
+                    },
+                    "400": {
+                        "description": "Invalid data"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "Internal Error"
+                    }
+                }
+            }
+        },
+        "/api/cart/checkout": {
+            "post": {
+                "tags": [
+                    "Cart"
+                ],
+                "summary": "Checkout a cart.",
+                "operationId": "checkout",
+                "parameters": [
+                    {
+                        "name": "items_id",
+                        "in": "path",
+                        "description": "User id to checkout",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Payment was successfull"
+                    },
+                    "400": {
+                        "description": "Invalid data"
+                    },
+                    "402": {
+                        "description": "Payment Denied"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "500": {
+                        "description": "Internal error"
+                    }
+                }
+            }
+        },
         "/api/items": {
             "get": {
                 "tags": [

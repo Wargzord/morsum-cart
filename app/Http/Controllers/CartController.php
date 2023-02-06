@@ -18,6 +18,55 @@ class CartController extends Controller
         $this->cartItems = new CartItems();
     }
 
+    /**
+     * Add a new item to the cart.
+     *
+     * @OA\Post(
+     *     path="/api/cart/addItem",
+     *     tags={"Cart"},
+     *     operationId="addItem",
+     *     @OA\RequestBody(
+     *          description="Input data format",
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="user_id",
+     *                     description="The name of the item",
+     *                     type="integer",
+     *                 ),
+     *                  @OA\Property(
+     *                     property="item_id",
+     *                     description="The price of the item",
+     *                     type="integer",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="item_amount",
+     *                     description="The price of the item",
+     *                     type="integer",
+     *                 ),
+     *              ),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Item added to the user cart"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid data"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal Error"
+     *     ),
+     * )
+     */
     public function addItem(Request $request){
         $validatedData = $request->validateWithBag('post', [
             'user_id' => ['bail','required', 'integer', 'min:1'],
@@ -111,6 +160,45 @@ class CartController extends Controller
         return $this->cart->updateCartValue($cartId, $cartValue);
     }
 
+    /**
+     * Checkout a cart.
+     *
+     * @OA\Post(
+     *     path="/api/cart/checkout",
+     *     tags={"Cart"},
+     *     operationId="checkout",
+     *     @OA\Parameter(
+     *         name="items_id",
+     *         in="path",
+     *         description="User id to checkout",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int64"
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Payment was successfull"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid data"
+     *     ),
+     *     @OA\Response(
+     *         response=402,
+     *         description="Payment Denied"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="User not found"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Internal error"
+     *     ),
+     * )
+     */
     public function checkout(Request $request){
         $validatedData = $request->validateWithBag('post', [
             'user_id' => ['bail','required', 'integer', 'min:1']
