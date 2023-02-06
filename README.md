@@ -34,9 +34,11 @@ If you choose not to use the alias, you can interact with sail using the path:
 ## Configure you local database
 ```bash
 sail up -d
-
+```
+```bash
 sail artisan config:cache
-
+```
+```bash
 sail artisan migrate
 ```
 
