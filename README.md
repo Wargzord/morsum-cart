@@ -6,9 +6,7 @@ This is de Cart Assessment by Samuel Drilard, using Laravel 9, running on sail, 
 
 Use the [docker](https://docs.docker.com/get-docker/) to run this project, so make sure you have the docker installed.
 
-Clone this repo
-
-Run the following commands, in this order:
+After cloning this repo, run the following commands, in this order:
 ```bash
 cd morsum-cart 
 
