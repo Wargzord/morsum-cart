@@ -1,0 +1,193 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Morsum Cart Assessment",
+        "description": "Morsum Cart Assessment by Samuel Drilard",
+        "contact": {
+            "email": "sgdrilard@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/items": {
+            "get": {
+                "tags": [
+                    "Items"
+                ],
+                "summary": "List all Items",
+                "description": "List all items currently in the platform database, paginated",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid status value"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Items"
+                ],
+                "summary": "Add a new item to the database.",
+                "operationId": "store",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "The name of the item",
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "description": "The price of the item",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "description": {
+                                        "description": "The price of the item",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Item saved"
+                    },
+                    "405": {
+                        "description": "Invalid input"
+                    }
+                }
+            }
+        },
+        "/api/items/{items_id}": {
+            "get": {
+                "tags": [
+                    "Items"
+                ],
+                "summary": "Show one Item",
+                "description": "Show one Item based on the ID sent by the user",
+                "operationId": "show",
+                "parameters": [
+                    {
+                        "name": "items_id",
+                        "in": "path",
+                        "description": "Item id to search",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid status value"
+                    },
+                    "404": {
+                        "description": "Item not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Items"
+                ],
+                "summary": "Update an existing Item.",
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "items_id",
+                        "in": "path",
+                        "description": "Item id to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "The name of the item",
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "description": "The price of the item",
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "description": {
+                                        "description": "The price of the item",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Invalid Data"
+                    },
+                    "404": {
+                        "description": "Item not found"
+                    },
+                    "200": {
+                        "description": "Item updated"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Items"
+                ],
+                "summary": "Deletes an Item",
+                "operationId": "destroy",
+                "parameters": [
+                    {
+                        "name": "items_id",
+                        "in": "path",
+                        "description": "Item id to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Item not found"
+                    },
+                    "200": {
+                        "description": "Item excluded"
+                    }
+                }
+            }
+        }
+    }
+}

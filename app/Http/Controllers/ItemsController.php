@@ -11,19 +11,68 @@ class ItemsController extends Controller{
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * List all Items
+     * 
+     * @OA\Get(
+     *     path="/api/items",
+     *     tags={"Items"},
+     *     summary="List all Items",
+     *     description="List all items currently in the platform database, paginated",
+     *     operationId="index",
+     *     @OA\Response(
+     *         response=200,
+     *         description="successful operation"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid status value"
+     *     )
+     * )
      */
     public function index(){
         return response()->json($this->items->getAllItems());
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Add a new item to the database.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @OA\Post(
+     *     path="/api/items",
+     *     tags={"Items"},
+     *     operationId="store",
+     *     @OA\RequestBody(
+     *          description="Input data format",
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="name",
+     *                     description="The name of the item",
+     *                     type="string",
+     *                 ),
+     *                  @OA\Property(
+     *                     property="price",
+     *                     description="The price of the item",
+     *                     type="float",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="description",
+     *                     description="The price of the item",
+     *                     type="string",
+     *                 ),
+     *              ),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Item saved"
+     *     ),
+     *     @OA\Response(
+     *         response=405,
+     *         description="Invalid input"
+     *     ),
+     * )
      */
     public function store(Request $request){
         $validatedData = $request->validateWithBag('post', [
@@ -47,10 +96,36 @@ class ItemsController extends Controller{
     }
 
     /**
-     * Output the specified resource.
-     *
-     * @param  \App\Models\Items  $items
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *     path="/api/items/{items_id}",
+     *     tags={"Items"},
+     *     summary="Show one Item",
+     *     description="Show one Item based on the ID sent by the user",
+     *     operationId="show",
+     *     @OA\Parameter(
+     *         name="items_id",
+     *         in="path",
+     *         description="Item id to search",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int64"
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="successful operation"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid status value"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Item not found"
+     *     )
+     * 
+     * )
      */
     public function show($items_id){
         $items = $this->items->getItem($items_id);
@@ -61,12 +136,61 @@ class ItemsController extends Controller{
     }
 
     /**
-     * Update the specified resource in storage .
+     * Update an existing Item.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Items  $items
-     * @return \Illuminate\Http\Response
+     * @OA\Put(
+     *     path="/api/items/{items_id}",
+     *     tags={"Items"},
+     *     operationId="update",
+     *     @OA\Parameter(
+     *         name="items_id",
+     *         in="path",
+     *         description="Item id to delete",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int64"
+     *         ),
+     *     ),
+     *     @OA\RequestBody(
+     *          description="Input data format",
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(
+     *                 type="object",
+     *                 @OA\Property(
+     *                     property="name",
+     *                     description="The name of the item",
+     *                     type="string",
+     *                 ),
+     *                  @OA\Property(
+     *                     property="price",
+     *                     description="The price of the item",
+     *                     type="float",
+     *                 ),
+     *                 @OA\Property(
+     *                     property="description",
+     *                     description="The price of the item",
+     *                     type="string",
+     *                 ),
+     *              ),
+     *          ),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid Data"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Item not found"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Item updated"
+     *     )
+     * )
      */
+
     public function update(Request $request, $items_id){
 
         $items = $this->items->getItem($items_id);
@@ -105,10 +229,34 @@ class ItemsController extends Controller{
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Items  $items
-     * @return \Illuminate\Http\Response
+     * @OA\Delete(
+     *     path="/api/items/{items_id}",
+     *     tags={"Items"},
+     *     summary="Deletes an Item",
+     *     operationId="destroy",
+     *     @OA\Parameter(
+     *         name="items_id",
+     *         in="path",
+     *         description="Item id to delete",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int64"
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Invalid ID supplied",
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Item not found",
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Item excluded",
+     *     )
+     * )
      */
     public function destroy($items_id)
     {
