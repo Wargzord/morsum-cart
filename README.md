@@ -42,5 +42,23 @@ sail artisan config:cache
 sail artisan migrate
 ```
 
+Due to an issue with laravel sail configuration, sometimes the database do not initialize correctly the first time you build de app, if you experience any issue with database connection when running the migrations, do the following:
+
+```bash
+sail down -v
+```
+```bash
+sail artisan config:cache
+```
+```bash
+sail artisan optimize
+```
+```bash
+sail artisan migrate
+```
+As far as I could understand, it's caused by some laravel caches not responding well with the sail container.
+
+With all running, any command php artisan can be used as sail artisan.
+
 ## Access the documentation
 Access http://localhost/api/documentation to get all the api documentation.
