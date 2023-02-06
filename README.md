@@ -8,10 +8,12 @@ Use the [docker](https://docs.docker.com/get-docker/) to run this project, so ma
 
 After cloning this repo, run the following commands, in this order:
 ```bash
-cd morsum-cart 
-
+cd morsum-cart
+```
+```bash
 mv .env.example .env
-
+```
+```bash
 docker run --rm --interactive --tty -v $(pwd):/app composer install
 ```
 ## Create the sail alias
