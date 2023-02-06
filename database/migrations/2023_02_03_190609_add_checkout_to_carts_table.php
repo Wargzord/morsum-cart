@@ -13,11 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('itens', function (Blueprint $table) {
-            $table->id();
-            $table->string('name', 200);
-            $table->float('price', 8, 2);
-            $table->timestamps();
+        Schema::table('carts', function (Blueprint $table) {
+            $table->boolean('checkout')->after('cart_value')->default(false);
         });
     }
 
@@ -28,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('itens');
+        Schema::table('carts', function (Blueprint $table) {
+            $table->dropColumn('checkout');
+        });
     }
 };

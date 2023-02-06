@@ -41,4 +41,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function userExists($userId){
+        try {
+            return Self::where('id', $userId)->exists();         
+        }catch (\Exception $createError) {
+            Log::error('User - userExists error :: '.$createError->getMessage());
+        }
+    }
 }
