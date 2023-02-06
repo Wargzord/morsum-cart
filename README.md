@@ -48,6 +48,9 @@ Due to an issue with laravel sail configuration, sometimes the database do not i
 sail down -v
 ```
 ```bash
+sail up -d
+```
+```bash
 sail artisan config:cache
 ```
 ```bash
