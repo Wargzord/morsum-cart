@@ -2,24 +2,43 @@
 
 This is de Cart Assessment by Samuel Drilard, using Laravel 9, running on sail, with php 8 and mysql 8.
 
-## Learning Laravel
+## Installation
 
-To run this project is simple:
+Use the [docker](https://docs.docker.com/get-docker/) to run this project, so make sure you have the docker installed.
 
-1 - Make sure you have the docker installed, if not, install here: https://docs.docker.com/get-docker/
+Clone this repo
 
-2 - clone this repo
+Run the following commands, in this order:
+```bash
+cd morsum-cart 
 
-3 - run mv .env.example .env
+mv .env.example .env
 
-4 - run docker run --rm --interactive --tty -v $(pwd):/app composer install
+docker run --rm --interactive --tty -v $(pwd):/app composer install
+```
+## Create the sail alias
+It's not mandatory, but if you prefer you can create an alias so it´s become simpler to interface with sail :
 
-5 - run ./vendor/bin/sail up to initialize the local server
-
-5.5 - It's not mandatory, but if you prefer you can create an alias so it´s become simpler to interface with sail using this:
-
+```bash
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+```
 
-You may add this to your shell configuration file in your home directory, such as ~/.zshrc or ~/.bashrc, and then restart your shell.
+You may add this to your shell configuration file in your home directory, such as ~/.zshrc or ~/.bashrc, restart your shell and then use.
 
-6 - Access http://localhost/api/documentation to get all the api documentation.
+If you choose not to use the alias, you can interact with sail using the path:
+
+```bash
+./vendor/bin/sail up -d
+```
+
+## Configure you local database
+```bash
+sail up -d
+
+sail artisan config:cache
+
+sail artisan migrate
+```
+
+## Access the documentation
+Access http://localhost/api/documentation to get all the api documentation.
